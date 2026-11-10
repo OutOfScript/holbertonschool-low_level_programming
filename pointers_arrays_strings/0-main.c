@@ -3,12 +3,10 @@
 
 int main(void)
 {
-    int n;
+    char s1[20] = "Hello ";
+    char s2[] = "World";
 
-    n = 402;
-    printf("n=%d\n", n);
-    reset_to_98(&n);
-    printf("n=%d\n", n);
+    printf("%s\n", _strcat(s1, s2));
 
     return (0);
 }
