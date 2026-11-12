@@ -4,29 +4,26 @@
 #include <time.h>
 
 /**
- * main - generates a random valid password
+ * main - generates a valid password
  *
  * Return: Always 0
  */
 int main(void)
 {
+	int i;
 	int p;
-	int sum = 0;
+	int q;
 
 	srand(time(NULL));
 
-	while (sum <= 2645)
-	{
-		p = (rand() % 95) + 32;
+	p = (rand() % 19) + 72;
+	q = 162 - p;
 
-		if (sum + p <= 2740)
-		{
-			sum += p;
-			putchar(p);
-		}
-	}
+	for (i = 0; i < 29; i++)
+		putchar('Z');
 
-	putchar(2772 - sum);
+	putchar(p);
+	putchar(q);
 	putchar('\n');
 
 	return (0);
