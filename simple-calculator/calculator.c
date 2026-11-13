@@ -31,7 +31,16 @@ int main(void)
             scanf("%lf", &b);
 
             printf("Result: %g\n\n", a - b);
-            break;	    
+            break;
+        case 3:
+            printf("A: ");
+            scanf("%lf", &a);
+
+            printf("B: ");
+            scanf("%lf", &b);
+
+            printf("Result: %g\n\n", a * b);
+            break;
     }
 
     return (0);
