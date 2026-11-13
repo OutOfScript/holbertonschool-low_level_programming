@@ -23,6 +23,15 @@ int main(void)
         default:
             printf("Invalid choice\n");
             break;
+        case 2:
+            printf("A: ");
+            scanf("%lf", &a);
+
+            printf("B: ");
+            scanf("%lf", &b);
+
+            printf("Result: %g\n\n", a - b);
+            break;	    
     }
 
     return (0);
