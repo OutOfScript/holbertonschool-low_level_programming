@@ -41,6 +41,22 @@ int main(void)
 
             printf("Result: %g\n\n", a * b);
             break;
+	            case 4:
+            printf("A: ");
+            scanf("%lf", &a);
+
+            printf("B: ");
+            scanf("%lf", &b);
+
+            if (b == 0)
+            {
+                printf("Error: division by zero\n\n");
+            }
+            else
+            {
+                printf("Result: %g\n\n", a / b);
+            }
+            break;
     }
 
     return (0);
