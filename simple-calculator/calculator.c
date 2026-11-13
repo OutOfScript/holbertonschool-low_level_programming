@@ -1,63 +1,99 @@
 #include <stdio.h>
 
+/**
+ * clear_input - Discards invalid input from stdin
+ */
+void clear_input(void)
+{
+    int c;
+
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
+/**
+ * read_number - Reads a valid decimal number
+ * @prompt: Message displayed to the user
+ * @number: Pointer to the number
+ *
+ * Return: 1 on success, 0 on EOF
+ */
+int read_number(char *prompt, double *number)
+{
+    while (1)
+    {
+        printf("%s", prompt);
+
+        if (scanf("%lf", number) == 1)
+        {
+            clear_input();
+            return (1);
+        }
+
+        if (feof(stdin))
+            return (0);
+
+        printf("Invalid number\n");
+        clear_input();
+    }
+}
+
+/**
+ * main - Simple calculator
+ *
+ * Return: 0 on success
+ */
 int main(void)
 {
     int choice;
     double a, b;
 
-    printf("Choice: ");
-    scanf("%d", &choice);
-
-    switch (choice)
+    while (1)
     {
-        case 1:
-            printf("A: ");
-            scanf("%lf", &a);
+        printf("Choice: ");
 
-            printf("B: ");
-            scanf("%lf", &b);
+        if (scanf("%d", &choice) != 1)
+        {
+            if (feof(stdin))
+                return (0);
 
-            printf("Result: %g\n\n", a + b);
-            break;
-
-        default:
             printf("Invalid choice\n");
-            break;
-        case 2:
-            printf("A: ");
-            scanf("%lf", &a);
+            clear_input();
+            continue;
+        }
 
-            printf("B: ");
-            scanf("%lf", &b);
+        clear_input();
 
-            printf("Result: %g\n\n", a - b);
-            break;
-        case 3:
-            printf("A: ");
-            scanf("%lf", &a);
+        if (choice < 1 || choice > 4)
+        {
+            printf("Invalid choice\n");
+            continue;
+        }
 
-            printf("B: ");
-            scanf("%lf", &b);
+        if (!read_number("A: ", &a))
+            return (0);
 
-            printf("Result: %g\n\n", a * b);
-            break;
-	            case 4:
-            printf("A: ");
-            scanf("%lf", &a);
+        if (!read_number("B: ", &b))
+            return (0);
 
-            printf("B: ");
-            scanf("%lf", &b);
-
-            if (b == 0)
-            {
-                printf("Error: division by zero\n\n");
-            }
-            else
-            {
-                printf("Result: %g\n\n", a / b);
-            }
-            break;
+        switch (choice)
+        {
+            case 1:
+                printf("Result: %g\n\n", a + b);
+                break;
+            case 2:
+                printf("Result: %g\n\n", a - b);
+                break;
+            case 3:
+                printf("Result: %g\n\n", a * b);
+                break;
+            case 4:
+                if (b == 0)
+                    printf("Error: division by zero\n\n");
+                else
+                    printf("Result: %g\n\n", a / b);
+                break;
+        }
+        return (0);
     }
-
-    return (0);
 }
