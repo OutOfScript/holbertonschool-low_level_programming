@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 /**
- * word_count - counts the words in a string
+ * word_count - counts words in a string
  * @str: string to count
  *
  * Return: number of words
@@ -27,58 +27,13 @@ static int word_count(char *str)
 			in_word = 0;
 		i++;
 	}
-
 	return (count);
 }
 
 /**
- * word_length - gets the length of a word
- * @str: string
- * @start: starting position
- *
- * Return: length of the word
- */
-static int word_length(char *str, int start)
-{
-	int len;
-
-	len = 0;
-	while (str[start + len] != ' ' && str[start + len] != '\0')
-		len++;
-
-	return (len);
-}
-
-/**
- * copy_word - copies a word into allocated memory
- * @str: source string
- * @start: starting position
- * @len: word length
- *
- * Return: pointer to copied word, or NULL
- */
-static char *copy_word(char *str, int start, int len)
-{
-	char *word;
-	int i;
-
-	word = malloc(sizeof(char) * (len + 1));
-	if (word == NULL)
-		return (NULL);
-
-	for (i = 0; i < len; i++)
-		word[i] = str[start + i];
-
-	word[len] = '\0';
-	return (word);
-}
-
-/**
- * free_words - frees allocated words
- * @words: array of words
+ * free_words - frees an array of strings
+ * @words: array to free
  * @count: number of allocated words
- *
- * Return: nothing
  */
 static void free_words(char **words, int count)
 {
@@ -86,22 +41,45 @@ static void free_words(char **words, int count)
 
 	for (i = 0; i < count; i++)
 		free(words[i]);
-
 	free(words);
+}
+
+/**
+ * copy_word - copies one word from a string
+ * @str: source string
+ * @start: starting position
+ * @end: ending position
+ *
+ * Return: pointer to copied word, or NULL
+ */
+static char *copy_word(char *str, int start, int end)
+{
+	char *word;
+	int i;
+
+	word = malloc(sizeof(char) * (end - start + 1));
+	if (word == NULL)
+		return (NULL);
+
+	for (i = 0; i < end - start; i++)
+		word[i] = str[start + i];
+
+	word[i] = '\0';
+	return (word);
 }
 
 /**
  * strtow - splits a string into words
  * @str: string to split
  *
- * Return: pointer to an array of words, or NULL
+ * Return: pointer to array of strings, or NULL
  */
 char **strtow(char *str)
 {
 	char **words;
-	int i, count, start, len, k;
+	int i, j, start, count;
 
-	if (str == NULL || str[0] == '\0')
+	if (str == NULL || *str == '\0')
 		return (NULL);
 
 	count = word_count(str);
@@ -113,8 +91,7 @@ char **strtow(char *str)
 		return (NULL);
 
 	i = 0;
-	k = 0;
-
+	j = 0;
 	while (str[i] != '\0')
 	{
 		while (str[i] == ' ')
@@ -124,19 +101,19 @@ char **strtow(char *str)
 			break;
 
 		start = i;
-		len = word_length(str, start);
-		words[k] = copy_word(str, start, len);
+		while (str[i] != ' ' && str[i] != '\0')
+			i++;
 
-		if (words[k] == NULL)
+		words[j] = copy_word(str, start, i);
+		if (words[j] == NULL)
 		{
-			free_words(words, k);
+			free_words(words, j);
 			return (NULL);
 		}
-
-		k++;
-		i += len;
+		j++;
 	}
+	words[j] = NULL;
 
-	words[k] = NULL;
 	return (words);
 }
+
